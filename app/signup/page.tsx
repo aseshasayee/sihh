@@ -3,6 +3,8 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useAuth } from "@/lib/auth-context"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -11,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Badge } from "@/components/ui/badge"
-import { Leaf, Mail, Lock, User, School, Eye, EyeOff, GraduationCap, Sparkles, Trophy, Target } from "lucide-react"
+import { Leaf, Mail, Lock, User, School, Eye, EyeOff, GraduationCap, Sparkles, Trophy, Target, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import FloatingElements from "@/components/floating-elements"
 
@@ -20,14 +22,72 @@ export default function SignUpPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [agreedToTerms, setAgreedToTerms] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    school: '',
+    grade: ''
+  })
+
+  const { signUp } = useAuth()
+  const router = useRouter()
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+    if (error) setError(null)
+  }
+
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+    if (error) setError(null)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!agreedToTerms) return
+    if (!agreedToTerms) {
+      setError('Please agree to the terms and conditions')
+      return
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long')
+      return
+    }
+
     setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-    setIsLoading(false)
+    setError(null)
+    
+    try {
+      const { error } = await signUp(formData.email, formData.password, {
+        full_name: formData.fullName,
+        school: formData.school,
+        grade: formData.grade,
+        role: 'student'
+      })
+      
+      if (error) {
+        setError(error.message)
+      } else {
+        // Redirect to dashboard on successful signup
+        router.push('/?tab=dashboard')
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -148,26 +208,25 @@ export default function SignUpPage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="p-6">
+                    {error && (
+                      <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md flex items-center gap-2 text-red-700">
+                        <AlertCircle className="h-4 w-4" />
+                        <span className="text-sm">{error}</span>
+                      </div>
+                    )}
+                    
                     <form onSubmit={handleSubmit} className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="firstName">First Name</Label>
-                          <div className="relative">
-                            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                            <Input
-                              id="firstName"
-                              placeholder="John"
-                              className="pl-10 border-green-200 focus:border-green-400"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="lastName">Last Name</Label>
+                      <div className="space-y-2">
+                        <Label htmlFor="fullName">Full Name</Label>
+                        <div className="relative">
+                          <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                           <Input
-                            id="lastName"
-                            placeholder="Doe"
-                            className="border-green-200 focus:border-green-400"
+                            id="fullName"
+                            name="fullName"
+                            placeholder="John Doe"
+                            className="pl-10 border-green-200 focus:border-green-400"
+                            value={formData.fullName}
+                            onChange={handleInputChange}
                             required
                           />
                         </div>
@@ -179,9 +238,12 @@ export default function SignUpPage() {
                           <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                           <Input
                             id="email"
+                            name="email"
                             type="email"
                             placeholder="student@school.edu"
                             className="pl-10 border-green-200 focus:border-green-400"
+                            value={formData.email}
+                            onChange={handleInputChange}
                             required
                           />
                         </div>
@@ -190,7 +252,11 @@ export default function SignUpPage() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="school">School</Label>
-                          <Select required>
+                          <Select 
+                            value={formData.school} 
+                            onValueChange={(value) => handleSelectChange('school', value)}
+                            required
+                          >
                             <SelectTrigger className="border-green-200 focus:border-green-400">
                               <SelectValue placeholder="Select your school" />
                             </SelectTrigger>
@@ -206,7 +272,11 @@ export default function SignUpPage() {
 
                         <div className="space-y-2">
                           <Label htmlFor="grade">Grade Level</Label>
-                          <Select required>
+                          <Select 
+                            value={formData.grade} 
+                            onValueChange={(value) => handleSelectChange('grade', value)}
+                            required
+                          >
                             <SelectTrigger className="border-green-200 focus:border-green-400">
                               <SelectValue placeholder="Select your grade" />
                             </SelectTrigger>
@@ -227,9 +297,12 @@ export default function SignUpPage() {
                             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <Input
                               id="password"
+                              name="password"
                               type={showPassword ? "text" : "password"}
                               placeholder="Create a strong password"
                               className="pl-10 pr-10 border-green-200 focus:border-green-400"
+                              value={formData.password}
+                              onChange={handleInputChange}
                               required
                             />
                             <button
@@ -248,9 +321,12 @@ export default function SignUpPage() {
                             <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <Input
                               id="confirmPassword"
+                              name="confirmPassword"
                               type={showConfirmPassword ? "text" : "password"}
                               placeholder="Confirm your password"
                               className="pl-10 pr-10 border-green-200 focus:border-green-400"
+                              value={formData.confirmPassword}
+                              onChange={handleInputChange}
                               required
                             />
                             <button

@@ -43,10 +43,10 @@ function AnimatedCounter({ end, duration = 2000, suffix = "" }: AnimatedCounterP
 
 export default function AnimatedStats() {
   const stats = [
-    { icon: TreePine, value: 12450, label: "Trees Planted", color: "text-primary" },
-    { icon: Recycle, value: 8230, label: "Kg Waste Recycled", color: "text-secondary" },
-    { icon: Users, value: 5670, label: "Active Students", color: "text-accent" },
-    { icon: Award, value: 234, label: "Schools Joined", color: "text-chart-4" },
+    { icon: TreePine, value: 12450, label: "Trees Planted", color: "text-green-600" },
+    { icon: Recycle, value: 8230, label: "Kg Waste Recycled", color: "text-blue-600" },
+    { icon: Users, value: 5670, label: "Active Students", color: "text-purple-600" },
+    { icon: Award, value: 234, label: "Schools Joined", color: "text-orange-600" },
   ]
 
   return (

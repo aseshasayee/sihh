@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Leaf, Users, Award, TrendingUp } from "lucide-react"
-import Earth3D from "./3d-earth"
+import Earth3D from "./3d-earth-new"
 import FloatingElements from "./floating-elements"
 import AnimatedStats from "./animated-stats"
 
@@ -53,21 +53,21 @@ export default function EnhancedHero() {
                 <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-2 mx-auto">
                   <Users className="w-6 h-6 text-green-600" />
                 </div>
-                <AnimatedStats value={15000} suffix="+" className="text-2xl font-bold text-gray-900" />
+                <div className="text-2xl font-bold text-gray-900">15,000+</div>
                 <p className="text-sm text-gray-600">Active Students</p>
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center w-12 h-12 bg-emerald-100 rounded-full mb-2 mx-auto">
                   <Award className="w-6 h-6 text-emerald-600" />
                 </div>
-                <AnimatedStats value={50000} suffix="+" className="text-2xl font-bold text-gray-900" />
+                <div className="text-2xl font-bold text-gray-900">50,000+</div>
                 <p className="text-sm text-gray-600">Badges Earned</p>
               </div>
               <div className="text-center">
                 <div className="flex items-center justify-center w-12 h-12 bg-teal-100 rounded-full mb-2 mx-auto">
                   <TrendingUp className="w-6 h-6 text-teal-600" />
                 </div>
-                <AnimatedStats value={1200} suffix="+" className="text-2xl font-bold text-gray-900" />
+                <div className="text-2xl font-bold text-gray-900">1,200+</div>
                 <p className="text-sm text-gray-600">Schools</p>
               </div>
             </div>
@@ -77,6 +77,17 @@ export default function EnhancedHero() {
           <div className="relative">
             <Earth3D />
           </div>
+        </div>
+        
+        {/* Global Stats Section */}
+        <div className="mt-20 pt-16 border-t border-green-100">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Global Impact</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              See the collective environmental impact we're making together across schools worldwide
+            </p>
+          </div>
+          <AnimatedStats />
         </div>
       </div>
 
