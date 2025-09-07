@@ -14,6 +14,7 @@ import HomePage from "@/components/home-page"
 import DashboardPage from "@/components/dashboard-page"
 import EventsPage from "@/components/events-page"
 import LeaderboardPage from "@/components/leaderboard-page"
+import { GameHub } from "@/components/games/GameHub"
 
 export default function EcozyApp() {
   const [activeTab, setActiveTab] = useState("home")
@@ -66,7 +67,7 @@ export default function EcozyApp() {
   ]
 
   const Navigation = () => (
-    <nav className="bg-card border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-white/20 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-2">
@@ -80,71 +81,81 @@ export default function EcozyApp() {
               <>
                 <button
                   onClick={() => setActiveTab("dashboard")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                     activeTab === "dashboard"
-                      ? "bg-green-600 text-white"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-green-600 text-white shadow-lg"
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Dashboard
                 </button>
                 <button
                   onClick={() => setActiveTab("feed")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === "feed" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "feed" 
+                      ? "bg-green-600 text-white shadow-lg" 
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Feed
                 </button>
                 <button
                   onClick={() => setActiveTab("courses")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === "courses" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "courses" 
+                      ? "bg-green-600 text-white shadow-lg" 
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Courses
                 </button>
                 <button
                   onClick={() => setActiveTab("games")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === "games" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "games" 
+                      ? "bg-green-600 text-white shadow-lg" 
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Games
                 </button>
                 <button
                   onClick={() => setActiveTab("events")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === "events" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "events" 
+                      ? "bg-green-600 text-white shadow-lg" 
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Events
                 </button>
                 <button
                   onClick={() => setActiveTab("leaderboard")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                     activeTab === "leaderboard"
-                      ? "bg-green-600 text-white"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-green-600 text-white shadow-lg"
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Leaderboard
                 </button>
                 <button
                   onClick={() => setActiveTab("profile")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === "profile" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "profile" 
+                      ? "bg-green-600 text-white shadow-lg" 
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Profile
                 </button>
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm text-muted-foreground">{user.user_metadata?.full_name || user.email}</span>
+                <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-gray-300">
+                  <span className="text-sm text-gray-700 font-medium">{user.user_metadata?.full_name || user.email}</span>
                   <Button
                     onClick={handleSignOut}
                     variant="outline"
                     size="sm"
-                    className="border-red-300 text-red-600 hover:bg-red-50 bg-transparent"
+                    className="border-red-300 text-red-600 hover:bg-red-50 bg-white/70 backdrop-blur-sm"
                   >
                     <LogOut className="h-4 w-4 mr-1" />
                     Sign Out
@@ -155,37 +166,43 @@ export default function EcozyApp() {
               <>
                 <button
                   onClick={() => setActiveTab("home")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === "home" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "home" 
+                      ? "bg-green-600 text-white shadow-lg" 
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Home
                 </button>
                 <button
                   onClick={() => setActiveTab("events")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                    activeTab === "events" ? "bg-green-600 text-white" : "text-muted-foreground hover:text-foreground"
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    activeTab === "events" 
+                      ? "bg-green-600 text-white shadow-lg" 
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Events
                 </button>
                 <button
                   onClick={() => setActiveTab("leaderboard")}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                     activeTab === "leaderboard"
-                      ? "bg-green-600 text-white"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "bg-green-600 text-white shadow-lg"
+                      : "text-gray-700 hover:text-green-600 hover:bg-green-50"
                   }`}
                 >
                   Leaderboard
                 </button>
                 <Link href="/auth">
-                  <Button className="bg-green-600 hover:bg-green-700 text-white">Sign In</Button>
+                  <Button className="bg-green-600 hover:bg-green-700 text-white rounded-full px-6 shadow-lg hover:shadow-xl transition-all duration-300">
+                    Sign In
+                  </Button>
                 </Link>
                 <Link href="/auth?mode=signup">
                   <Button
                     variant="outline"
-                    className="border-green-600 text-green-600 hover:bg-green-50 bg-transparent"
+                    className="border-green-600 text-green-600 hover:bg-green-50 bg-white/70 backdrop-blur-sm rounded-full px-6"
                   >
                     Sign Up
                   </Button>
@@ -207,7 +224,7 @@ export default function EcozyApp() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-border">
+          <div className="md:hidden border-t border-white/20 bg-white/90 backdrop-blur-lg">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {user ? (
                 <>
@@ -484,74 +501,7 @@ export default function EcozyApp() {
     </div>
   )
 
-  const GamesPage = () => (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="mb-8">
-        <h1 className="font-playfair text-3xl font-bold mb-2">Eco Games 🎮</h1>
-        <p className="text-muted-foreground">Learn through fun and interactive games!</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[
-          {
-            title: "Recycle Rush",
-            description: "Sort waste into the correct bins as fast as you can!",
-            difficulty: "Easy",
-            points: "10-50 points",
-            players: 1247,
-          },
-          {
-            title: "Carbon Footprint Challenge",
-            description: "Make daily choices to reduce your carbon impact",
-            difficulty: "Medium",
-            points: "25-100 points",
-            players: 892,
-          },
-          {
-            title: "Ecosystem Builder",
-            description: "Create and balance your own virtual ecosystem",
-            difficulty: "Hard",
-            points: "50-200 points",
-            players: 634,
-          },
-          {
-            title: "Water Conservation Quest",
-            description: "Save water resources in this adventure game",
-            difficulty: "Medium",
-            points: "30-75 points",
-            players: 756,
-          },
-        ].map((game, index) => (
-          <Card key={index} className="hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle className="text-lg">{game.title}</CardTitle>
-                <Badge
-                  variant={
-                    game.difficulty === "Easy" ? "secondary" : game.difficulty === "Medium" ? "default" : "destructive"
-                  }
-                >
-                  {game.difficulty}
-                </Badge>
-              </div>
-              <CardDescription>{game.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between text-sm text-muted-foreground">
-                  <span>{game.points}</span>
-                  <span>{game.players} players</span>
-                </div>
-                <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700">
-                  Play Now
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  )
+  const GamesPage = () => <GameHub />
 
   const ProfilePage = () => (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -644,7 +594,7 @@ export default function EcozyApp() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
-      <div className="flex-1">
+      <div className="flex-1 pt-16 pb-20 md:pb-0">
         {activeTab === "home" && <HomePage />}
         {activeTab === "dashboard" && <DashboardPage />}
         {activeTab === "feed" && <FeedPage />}
@@ -656,75 +606,75 @@ export default function EcozyApp() {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border">
-        <div className="flex justify-around py-2">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t border-white/20 shadow-lg z-40">
+        <div className="flex justify-around py-3">
           {user ? (
             <>
               <button
                 onClick={() => setActiveTab("dashboard")}
-                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
-                  activeTab === "dashboard" ? "text-green-600" : "text-muted-foreground"
+                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-300 ${
+                  activeTab === "dashboard" ? "text-green-600 bg-green-50" : "text-gray-600"
                 }`}
               >
                 <Trophy className="h-5 w-5" />
-                <span className="text-xs mt-1">Dashboard</span>
+                <span className="text-xs mt-1 font-medium">Dashboard</span>
               </button>
               <button
                 onClick={() => setActiveTab("feed")}
-                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
-                  activeTab === "feed" ? "text-green-600" : "text-muted-foreground"
+                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-300 ${
+                  activeTab === "feed" ? "text-green-600 bg-green-50" : "text-gray-600"
                 }`}
               >
                 <Users className="h-5 w-5" />
-                <span className="text-xs mt-1">Feed</span>
+                <span className="text-xs mt-1 font-medium">Feed</span>
               </button>
               <button
                 onClick={() => setActiveTab("games")}
-                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
-                  activeTab === "games" ? "text-green-600" : "text-muted-foreground"
+                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-300 ${
+                  activeTab === "games" ? "text-green-600 bg-green-50" : "text-gray-600"
                 }`}
               >
                 <Target className="h-5 w-5" />
-                <span className="text-xs mt-1">Games</span>
+                <span className="text-xs mt-1 font-medium">Games</span>
               </button>
               <button
                 onClick={() => setActiveTab("profile")}
-                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
-                  activeTab === "profile" ? "text-green-600" : "text-muted-foreground"
+                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-300 ${
+                  activeTab === "profile" ? "text-green-600 bg-green-50" : "text-gray-600"
                 }`}
               >
                 <Award className="h-5 w-5" />
-                <span className="text-xs mt-1">Profile</span>
+                <span className="text-xs mt-1 font-medium">Profile</span>
               </button>
             </>
           ) : (
             <>
               <button
                 onClick={() => setActiveTab("home")}
-                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
-                  activeTab === "home" ? "text-green-600" : "text-muted-foreground"
+                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-300 ${
+                  activeTab === "home" ? "text-green-600 bg-green-50" : "text-gray-600"
                 }`}
               >
                 <Leaf className="h-5 w-5" />
-                <span className="text-xs mt-1">Home</span>
+                <span className="text-xs mt-1 font-medium">Home</span>
               </button>
               <button
                 onClick={() => setActiveTab("events")}
-                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
-                  activeTab === "events" ? "text-green-600" : "text-muted-foreground"
+                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-300 ${
+                  activeTab === "events" ? "text-green-600 bg-green-50" : "text-gray-600"
                 }`}
               >
                 <Calendar className="h-5 w-5" />
-                <span className="text-xs mt-1">Events</span>
+                <span className="text-xs mt-1 font-medium">Events</span>
               </button>
               <button
                 onClick={() => setActiveTab("leaderboard")}
-                className={`flex flex-col items-center py-2 px-3 rounded-lg transition-colors ${
-                  activeTab === "leaderboard" ? "text-green-600" : "text-muted-foreground"
+                className={`flex flex-col items-center py-2 px-3 rounded-xl transition-all duration-300 ${
+                  activeTab === "leaderboard" ? "text-green-600 bg-green-50" : "text-gray-600"
                 }`}
               >
                 <Trophy className="h-5 w-5" />
-                <span className="text-xs mt-1">Leaderboard</span>
+                <span className="text-xs mt-1 font-medium">Leaderboard</span>
               </button>
             </>
           )}
