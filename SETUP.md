@@ -5,9 +5,9 @@
 ### 1. Environment Setup
 
 1. Copy `.env.local` and update with your Supabase credentials:
-   ```bash
+   \`\`\`bash
    cp .env.local .env.local.example
-   ```
+   \`\`\`
 
 2. Create a new Supabase project at https://supabase.com
 3. Get your project URL and anon key from Settings > API
@@ -27,7 +27,7 @@
 
 ### 3. Development
 
-```bash
+\`\`\`bash
 # Install dependencies
 npm install
 
@@ -39,7 +39,7 @@ npm run build
 
 # Start production server
 npm start
-```
+\`\`\`
 
 ## 🗃️ Database Schema
 

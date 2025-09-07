@@ -34,26 +34,26 @@ A Next.js application that gamifies environmental sustainability for students an
 ### Installation
 
 1. **Clone the repository**
-   ```bash
+   \`\`\`bash
    git clone https://github.com/your-username/ecozy.git
    cd ecozy
-   ```
+   \`\`\`
 
 2. **Install dependencies**
-   ```bash
+   \`\`\`bash
    pnpm install
-   ```
+   \`\`\`
 
 3. **Set up environment variables**
-   ```bash
+   \`\`\`bash
    cp .env.local.example .env.local
-   ```
+   \`\`\`
    
    Edit `.env.local` with your Supabase credentials:
-   ```env
+   \`\`\`env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-   ```
+   \`\`\`
 
 4. **Set up Supabase database**
    - Create a new Supabase project at [supabase.com](https://supabase.com)
@@ -61,9 +61,9 @@ A Next.js application that gamifies environmental sustainability for students an
    - Run the migration file: `migrations/001_initial_schema.sql`
 
 5. **Run the development server**
-   ```bash
+   \`\`\`bash
    pnpm dev
-   ```
+   \`\`\`
 
 6. **Open your browser**
    Navigate to [http://localhost:3000](http://localhost:3000)
